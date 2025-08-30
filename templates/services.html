@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% block title %}{{ super() }} - Nos Services{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Nos Services</h1>
+</div>
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Une Gamme Complète Pour Votre Confort</h2>
+        <p class="section-subtitle">
+            De la planification à la réalisation de votre voyage, nous couvrons tous les aspects
+            pour vous garantir une expérience exceptionnelle et sans souci.
+        </p>
+        <div class="services-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            {% for service in data.services %}
+            <div class="service-card" style="background: white; padding: 2rem; border-radius: var(--border-radius); text-align: center; box-shadow: var(--shadow); transition: all 0.3s ease;">
+                <div class="service-icon" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"><i class="fas {{ service.icon }}"></i></div>
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">{{ service.nom }}</h3>
+                <p style="color: var(--text-secondary);">{{ service.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

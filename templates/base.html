@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ data.company_name }}{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2C5B61; --secondary: #3A7C89; --accent: #EAB308;
+            --light: #F8F9FA; --dark: #1B262C; --text-primary: #333;
+            --text-secondary: #666; --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; color: var(--text-primary); background-color: #FFFFFF; overflow-x: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        header {
+            background: white; padding: 1rem 0; position: sticky;
+            width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .logo { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; }
+        .company-name { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+        .nav-links { display: flex; list-style: none; gap: 1rem; }
+        .nav-links a {
+            color: var(--primary); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem;
+            border-radius: 25px; transition: all 0.3s ease;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        main { min-height: 70vh; }
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
+            padding: 6rem 0; text-align: center; color: white;
+        }
+        .page-header h1 { font-size: 3rem; font-weight: 700; }
+        .section { padding: 6rem 0; }
+        .section-light { background-color: var(--light); }
+        .section-title {
+            text-align: center; font-size: 2.5rem; font-weight: 700;
+            color: var(--primary); margin-bottom: 3rem; position: relative;
+        }
+        .section-title::after {
+            content: ''; position: absolute; bottom: -10px; left: 50%;
+            transform: translateX(-50%); width: 60px; height: 4px;
+            background-color: var(--accent); border-radius: 2px;
+        }
+        .section-subtitle { text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 4rem auto; }
+        footer { background-color: var(--primary); color: white; padding: 4rem 2rem 2rem; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .footer-section h3 { color: var(--accent); margin-bottom: 1rem; }
+        .footer-section p, .footer-section a { color: rgba(255,255,255,0.8); text-decoration: none; margin-bottom: 0.5rem; transition: color 0.3s; }
+        .footer-section a:hover { color: var(--accent); }
+        .footer-bottom { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--secondary); }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="{{ url_for('index') }}" style="text-decoration: none;">
+                <div class="logo-container">
+                    {% if data.logo %}<img src="{{ url_for('static', filename=data.logo) }}" alt="Logo" class="logo">{% endif %}
+                    <div class="company-name">{{ data.company_name }}</div>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}" class="{{ 'active' if request.path == url_for('index') else '' }}">Accueil</a></li>
+                <li><a href="{{ url_for('services') }}" class="{{ 'active' if request.path == url_for('services') else '' }}">Services</a></li>
+                <li><a href="{{ url_for('destinations') }}" class="{{ 'active' if request.path.startswith(url_for('destinations')) else '' }}">Destinations</a></li>
+                <li><a href="{{ url_for('contact') }}" class="{{ 'active' if request.path == url_for('contact') else '' }}">Contact</a></li>
+                <li><a href="{{ url_for('admin') }}" class="{{ 'active' if request.path == url_for('admin') else '' }}">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div style="padding: 1rem; text-align: center;">
+            {% for category, message in messages %}
+                <div class="alert-{{ category }}" style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: 8px; max-width: 800px; margin: 1rem auto;">{{ message }}</div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section"><h3>{{ data.company_name }}</h3><p>Votre partenaire pour des voyages inoubliables.</p></div>
+            <div class="footer-section"><h3>Contact</h3><p><i class="fas fa-phone"></i> {{ data.contact_info.telephone }}</p><p><i class="fas fa-envelope"></i> {{ data.contact_info.email }}</p></div>
+            <div class="footer-section"><h3>Liens Rapides</h3><a href="{{ url_for('services') }}">Services</a><a href="{{ url_for('destinations') }}">Destinations</a><a href="{{ url_for('contact') }}">Contact</a></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2024 {{ data.company_name }}. Tous droits réservés.</p></div>
+    </footer>
+</body>
+</html>
