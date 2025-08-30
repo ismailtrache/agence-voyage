@@ -3,6 +3,10 @@
 {% block title %}{{ super() }} - Destinations{% endblock %}
 {% block content %}
 <style>
+    .destinations-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    @media (min-width: 576px) {
+        .destinations-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; }
+    }
     .destination-card { background: white; border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s ease; position: relative; }
     .destination-card:hover { transform: translateY(-10px); }
     .destination-card img { width: 100%; height: 350px; object-fit: cover; }
@@ -21,14 +25,13 @@
             {% if request.args.get('query') %}
                 Résultats de la recherche pour : <strong>{{ request.args.get('query') }}</strong>
             {% else %}
-                Des métropoles vibrantes aux plages paradisiaques, trouvez l'inspiration
-                pour votre prochaine aventure.
+                Des métropoles vibrantes aux plages paradisiaques, trouvez l'inspiration.
             {% endif %}
         </p>
-        <div class="destinations-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem;">
+        <div class="destinations-grid">
             {% for destination in destinations %}
             <div class="destination-card">
-                <img src="{{ destination.image if destination.image else url_for('static', filename='uploads/placeholder.jpg') }}" alt="{{ destination.nom }}">
+                <img src="{% if 'http' in destination.image %}{{ destination.image }}{% else %}{{ url_for('static', filename=destination.image) }}{% endif %}" alt="{{ destination.nom }}">
                 <div class="dest-overlay"></div>
                 <div class="dest-price">{{ destination.prix }}</div>
                 <div class="dest-content">

@@ -16,16 +16,16 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; color: var(--text-primary); background-color: #FFFFFF; overflow-x: hidden; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
         header {
             background: white; padding: 1rem 0; position: sticky;
             width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
         nav { display: flex; justify-content: space-between; align-items: center; }
         .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; }
-        .company-name { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
-        .nav-links { display: flex; list-style: none; gap: 1rem; }
+        .logo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+        .company-name { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .nav-links { display: flex; list-style: none; gap: 1rem; align-items: center; }
         .nav-links a {
             color: var(--primary); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem;
             border-radius: 25px; transition: all 0.3s ease;
@@ -34,16 +34,17 @@
             background-color: var(--primary);
             color: white;
         }
+        .hamburger { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--primary); }
         main { min-height: 70vh; }
         .page-header {
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
-            padding: 6rem 0; text-align: center; color: white;
+            padding: 4rem 0; text-align: center; color: white;
         }
-        .page-header h1 { font-size: 3rem; font-weight: 700; }
-        .section { padding: 6rem 0; }
+        .page-header h1 { font-size: 2.5rem; font-weight: 700; }
+        .section { padding: 4rem 0; }
         .section-light { background-color: var(--light); }
         .section-title {
-            text-align: center; font-size: 2.5rem; font-weight: 700;
+            text-align: center; font-size: 2.2rem; font-weight: 700;
             color: var(--primary); margin-bottom: 3rem; position: relative;
         }
         .section-title::after {
@@ -51,13 +52,41 @@
             transform: translateX(-50%); width: 60px; height: 4px;
             background-color: var(--accent); border-radius: 2px;
         }
-        .section-subtitle { text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 4rem auto; }
-        footer { background-color: var(--primary); color: white; padding: 4rem 2rem 2rem; }
+        .section-subtitle { text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 3rem auto; }
+        footer { background-color: var(--primary); color: white; padding: 3rem 1rem; }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
         .footer-section h3 { color: var(--accent); margin-bottom: 1rem; }
-        .footer-section p, .footer-section a { color: rgba(255,255,255,0.8); text-decoration: none; margin-bottom: 0.5rem; transition: color 0.3s; }
+        .footer-section p, .footer-section a { display: block; color: rgba(255,255,255,0.8); text-decoration: none; margin-bottom: 0.5rem; transition: color 0.3s; }
         .footer-section a:hover { color: var(--accent); }
-        .footer-bottom { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--secondary); }
+        .footer-bottom { text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--secondary); }
+        
+        /* Styles pour Mobile (Responsive) */
+        @media (max-width: 768px) {
+            .company-name { font-size: 1.2rem; }
+            .hamburger { display: block; z-index: 1001; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background-color: white;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                padding: 6rem 2rem 2rem;
+                gap: 2rem;
+                transition: right 0.4s ease-in-out;
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .nav-links a {
+                font-size: 1.2rem;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -69,13 +98,16 @@
                     <div class="company-name">{{ data.company_name }}</div>
                 </div>
             </a>
-            <ul class="nav-links">
-                <li><a href="{{ url_for('index') }}" class="{{ 'active' if request.path == url_for('index') else '' }}">Accueil</a></li>
-                <li><a href="{{ url_for('services') }}" class="{{ 'active' if request.path == url_for('services') else '' }}">Services</a></li>
-                <li><a href="{{ url_for('destinations') }}" class="{{ 'active' if request.path.startswith(url_for('destinations')) else '' }}">Destinations</a></li>
-                <li><a href="{{ url_for('contact') }}" class="{{ 'active' if request.path == url_for('contact') else '' }}">Contact</a></li>
-                <li><a href="{{ url_for('admin') }}" class="{{ 'active' if request.path == url_for('admin') else '' }}">Admin</a></li>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('index') }}">Accueil</a></li>
+                <li><a href="{{ url_for('services') }}">Services</a></li>
+                <li><a href="{{ url_for('destinations') }}">Destinations</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <li><a href="{{ url_for('admin') }}">Admin</a></li>
             </ul>
+            <button class="hamburger" id="hamburger-button">
+                <i class="fas fa-bars"></i>
+            </button>
         </nav>
     </header>
     
@@ -100,5 +132,22 @@
         </div>
         <div class="footer-bottom"><p>&copy; 2024 {{ data.company_name }}. Tous droits réservés.</p></div>
     </footer>
+
+    <script>
+        const hamburgerButton = document.getElementById('hamburger-button');
+        const navLinks = document.getElementById('nav-links');
+        const icon = hamburgerButton.querySelector('i');
+
+        hamburgerButton.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
 </body>
 </html>

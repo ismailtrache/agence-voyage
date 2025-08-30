@@ -3,7 +3,10 @@
 {% block title %}{{ super() }} - Contact{% endblock %}
 {% block content %}
 <style>
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .contact-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    @media (min-width: 768px) {
+        .contact-grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
+    }
     .contact-info p { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; font-size: 1.1rem; }
     .contact-info i { font-size: 1.5rem; color: var(--primary); width: 30px; }
     .contact-form .form-group { margin-bottom: 1.5rem; }
@@ -17,11 +20,6 @@
         border: none; cursor: pointer; font-size: 1rem; font-weight: 600; transition: all 0.3s;
     }
     .btn-submit:hover { background: var(--secondary); transform: scale(1.05); }
-    .flash-success {
-        padding: 1rem; background-color: #d4edda; color: #155724;
-        border: 1px solid #c3e6cb; border-radius: var(--border-radius); margin-bottom: 2rem;
-    }
-    @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
 </style>
 <div class="page-header">
     <h1>Contactez-Nous</h1>
@@ -30,8 +28,7 @@
     <div class="container">
         <h2 class="section-title">Prenons Contact</h2>
         <p class="section-subtitle">
-            Une question ? Une demande de devis ? Notre équipe est à votre écoute pour vous aider
-            à planifier le voyage parfait.
+            Une question ? Une demande de devis ? Notre équipe est à votre écoute.
         </p>
         <div class="contact-grid">
             <div class="contact-info">

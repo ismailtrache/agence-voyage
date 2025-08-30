@@ -12,7 +12,7 @@
             De la planification à la réalisation de votre voyage, nous couvrons tous les aspects
             pour vous garantir une expérience exceptionnelle et sans souci.
         </p>
-        <div class="services-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div class="services-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
             {% for service in data.services %}
             <div class="service-card" style="background: white; padding: 2rem; border-radius: var(--border-radius); text-align: center; box-shadow: var(--shadow); transition: all 0.3s ease;">
                 <div class="service-icon" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"><i class="fas {{ service.icon }}"></i></div>
