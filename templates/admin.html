@@ -1,57 +1,53 @@
 
 {% extends "base.html" %}
-{% block title %}{{ super() }} - Administration{% endblock %}
 {% block content %}
 <style>
-    .admin-container { padding: 2rem 1rem; max-width: 800px; margin: 2rem auto; background: #f8f9fa; border-radius: 15px; box-shadow: var(--shadow); }
+    .admin-container { padding: 2rem 1rem; max-width: 900px; margin: 2rem auto; background: #f8f9fa; border-radius: 15px; box-shadow: var(--shadow); }
     .admin-section { margin-bottom: 3rem; }
-    .admin-section h2 { font-size: 1.5rem; color: var(--primary); border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+    .admin-section h2 { font-size: 1.8rem; color: var(--primary); border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
     .form-group { margin-bottom: 1rem; }
     label { font-weight: 600; display: block; margin-bottom: 0.5rem; }
-    input[type="file"], select { width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; }
-    .btn-submit {
-        background: var(--primary); color: white; padding: 0.8rem 2rem; border-radius: 50px;
-        border: none; cursor: pointer; font-size: 1rem; font-weight: 600; transition: all 0.3s; display: inline-block; margin-top: 1rem;
-    }
-    .btn-submit:hover { background: var(--secondary); }
-    .current-logo { max-width: 100px; border-radius: 50%; display: block; margin-top: 1rem; }
+    input, textarea, select { width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; font-family: 'Poppins', sans-serif; }
+    .btn-submit { background: var(--primary); color: white; padding: 0.8rem 2rem; border-radius: 50px; border: none; cursor: pointer; font-size: 1rem; font-weight: 600; transition: all 0.3s; display: inline-block; margin-top: 1rem; }
+    .dest-list { list-style: none; padding: 0; }
+    .dest-item { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid #eee; }
+    .dest-actions a { margin-left: 1rem; text-decoration: none; color: var(--primary); }
+    .dest-actions a.delete { color: #e74c3c; }
+    .order-arrows a { font-size: 1.2rem; margin-left: 1rem; }
 </style>
-<div class="page-header">
-    <h1>Panneau d'Administration</h1>
-</div>
+<div class="page-header"><h1>Panneau de Contrôle</h1></div>
 <div class="admin-container">
     <div class="admin-section">
-        <h2>Gérer le Logo</h2>
-        <form action="{{ url_for('upload_logo') }}" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="logo">Téléverser un nouveau logo</label>
-                <input type="file" name="logo" id="logo" required>
-            </div>
-            <button type="submit" class="btn-submit">Mettre à jour le logo</button>
+        <h2>Ajouter une Destination</h2>
+        <form action="{{ url_for('add_destination') }}" method="post" enctype="multipart/form-data">
+            <div class="form-group"><label for="nom">Nom</label><input type="text" id="nom" name="nom" required></div>
+            <div class="form-group"><label for="description">Description</label><textarea id="description" name="description" rows="3" required></textarea></div>
+            <div class="form-group"><label for="prix">Prix</label><input type="text" id="prix" name="prix" required></div>
+            <div class="form-group"><label for="image">Image</label><input type="file" id="image" name="image"></div>
+            <button type="submit" class="btn-submit">Ajouter</button>
         </form>
-        {% if data.logo %}
-            <p style="margin-top: 1rem;"><strong>Logo actuel :</strong></p>
-            <img src="{{ url_for('static', filename=data.logo) }}" alt="Logo actuel" class="current-logo">
-        {% endif %}
     </div>
-
     <div class="admin-section">
-        <h2>Gérer les Images des Destinations</h2>
-        <form action="{{ url_for('upload_destination_image') }}" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="destination_index">Choisir une destination</label>
-                <select name="destination_index" id="destination_index" required>
-                    {% for i in range(data.destinations|length) %}
-                        <option value="{{ i }}">{{ data.destinations[i].nom }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="image">Téléverser une nouvelle image</label>
-                <input type="file" name="image" id="image" required>
-            </div>
-            <button type="submit" class="btn-submit">Mettre à jour l'image</button>
-        </form>
+        <h2>Gérer les Destinations</h2>
+        <ul class="dest-list">
+            {% for i in range(data.destinations|length) %}
+            <li class="dest-item">
+                <span>{{ data.destinations[i].nom }}</span>
+                <div class="dest-actions">
+                    <span class="order-arrows">
+                        {% if not loop.first %}
+                        <a href="{{ url_for('move_destination_up', index=i) }}">⬆️</a>
+                        {% endif %}
+                        {% if not loop.last %}
+                        <a href="{{ url_for('move_destination_down', index=i) }}">⬇️</a>
+                        {% endif %}
+                    </span>
+                    <a href="{{ url_for('edit_destination', index=i) }}">Modifier</a>
+                    <a href="{{ url_for('delete_destination', index=i) }}" onclick="return confirm('Êtes-vous sûr ?')" class="delete">Supprimer</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% endblock %}

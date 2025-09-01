@@ -8,50 +8,26 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #2C5B61; --secondary: #3A7C89; --accent: #EAB308;
-            --light: #F8F9FA; --dark: #1B262C; --text-primary: #333;
-            --text-secondary: #666; --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --border-radius: 12px;
-        }
+        :root { --primary: #2C5B61; --secondary: #3A7C89; --accent: #EAB308; --light: #F8F9FA; --dark: #1B262C; --text-primary: #333; --text-secondary: #666; --shadow: 0 10px 30px rgba(0, 0, 0, 0.1); --border-radius: 12px; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; color: var(--text-primary); background-color: #FFFFFF; overflow-x: hidden; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-        header {
-            background: white; padding: 1rem 0; position: sticky;
-            width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-        }
+        header { background: white; padding: 1rem 0; position: sticky; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
         nav { display: flex; justify-content: space-between; align-items: center; }
         .logo-container { display: flex; align-items: center; gap: 15px; }
         .logo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
         .company-name { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
         .nav-links { display: flex; list-style: none; gap: 1rem; align-items: center; }
-        .nav-links a {
-            color: var(--primary); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem;
-            border-radius: 25px; transition: all 0.3s ease;
-        }
-        .nav-links a:hover, .nav-links a.active {
-            background-color: var(--primary);
-            color: white;
-        }
+        .nav-links a { color: var(--primary); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; }
+        .nav-links a:hover, .nav-links a.active { background-color: var(--primary); color: white; }
         .hamburger { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--primary); }
         main { min-height: 70vh; }
-        .page-header {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
-            padding: 4rem 0; text-align: center; color: white;
-        }
+        .page-header { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover; padding: 4rem 0; text-align: center; color: white; }
         .page-header h1 { font-size: 2.5rem; font-weight: 700; }
         .section { padding: 4rem 0; }
         .section-light { background-color: var(--light); }
-        .section-title {
-            text-align: center; font-size: 2.2rem; font-weight: 700;
-            color: var(--primary); margin-bottom: 3rem; position: relative;
-        }
-        .section-title::after {
-            content: ''; position: absolute; bottom: -10px; left: 50%;
-            transform: translateX(-50%); width: 60px; height: 4px;
-            background-color: var(--accent); border-radius: 2px;
-        }
+        .section-title { text-align: center; font-size: 2.2rem; font-weight: 700; color: var(--primary); margin-bottom: 3rem; position: relative; }
+        .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background-color: var(--accent); border-radius: 2px; }
         .section-subtitle { text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 3rem auto; }
         footer { background-color: var(--primary); color: white; padding: 3rem 1rem; }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
@@ -59,33 +35,14 @@
         .footer-section p, .footer-section a { display: block; color: rgba(255,255,255,0.8); text-decoration: none; margin-bottom: 0.5rem; transition: color 0.3s; }
         .footer-section a:hover { color: var(--accent); }
         .footer-bottom { text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--secondary); }
-        
-        /* Styles pour Mobile (Responsive) */
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background-color: var(--primary); color: white; padding: 1rem 2rem; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 2000; transition: bottom 0.5s ease-in-out; }
+        .toast.show { bottom: 30px; }
         @media (max-width: 768px) {
             .company-name { font-size: 1.2rem; }
             .hamburger { display: block; z-index: 1001; }
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 70%;
-                height: 100vh;
-                background-color: white;
-                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-                flex-direction: column;
-                align-items: flex-start;
-                justify-content: flex-start;
-                padding: 6rem 2rem 2rem;
-                gap: 2rem;
-                transition: right 0.4s ease-in-out;
-            }
-            .nav-links.active {
-                right: 0;
-            }
-            .nav-links a {
-                font-size: 1.2rem;
-                width: 100%;
-            }
+            .nav-links { position: fixed; top: 0; right: -100%; width: 70%; height: 100vh; background-color: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 6rem 2rem 2rem; gap: 2rem; transition: right 0.4s ease-in-out; }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.2rem; width: 100%; }
         }
     </style>
 </head>
@@ -105,23 +62,19 @@
                 <li><a href="{{ url_for('contact') }}">Contact</a></li>
                 <li><a href="{{ url_for('admin') }}">Admin</a></li>
             </ul>
-            <button class="hamburger" id="hamburger-button">
-                <i class="fas fa-bars"></i>
-            </button>
+            <button class="hamburger" id="hamburger-button"><i class="fas fa-bars"></i></button>
         </nav>
     </header>
-    
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div style="padding: 1rem; text-align: center;">
-            {% for category, message in messages %}
-                <div class="alert-{{ category }}" style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: 8px; max-width: 800px; margin: 1rem auto;">{{ message }}</div>
-            {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
-
     <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div style="padding-top: 1rem; text-align: center;">
+                {% for category, message in messages %}
+                    <div class="alert-{{ category }}" style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: 8px; max-width: 800px; margin: 0 auto;">{{ message }}</div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
         {% block content %}{% endblock %}
     </main>
     <footer>
@@ -132,12 +85,10 @@
         </div>
         <div class="footer-bottom"><p>&copy; 2024 {{ data.company_name }}. Tous droits réservés.</p></div>
     </footer>
-
     <script>
         const hamburgerButton = document.getElementById('hamburger-button');
         const navLinks = document.getElementById('nav-links');
         const icon = hamburgerButton.querySelector('i');
-
         hamburgerButton.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             if (navLinks.classList.contains('active')) {
@@ -147,6 +98,27 @@
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
             }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const quoteLinks = document.querySelectorAll('.quote-link');
+            quoteLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const href = this.href;
+                    let toast = document.querySelector('.toast');
+                    if (!toast) {
+                        toast = document.createElement('div');
+                        toast.className = 'toast';
+                        document.body.appendChild(toast);
+                    }
+                    toast.innerText = 'Pour un devis, veuillez nous contacter.';
+                    setTimeout(() => { toast.classList.add('show'); }, 100);
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                        setTimeout(() => { window.location.href = href; }, 500);
+                    }, 2000);
+                });
+            });
         });
     </script>
 </body>

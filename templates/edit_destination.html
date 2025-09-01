@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .edit-container { padding: 2rem 1rem; max-width: 800px; margin: 2rem auto; background: #f8f9fa; border-radius: 15px; box-shadow: var(--shadow); }
+    h2 { font-size: 1.8rem; color: var(--primary); border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1rem; }
+    label { font-weight: 600; display: block; margin-bottom: 0.5rem; }
+    input, textarea { width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; font-family: 'Poppins', sans-serif; }
+    .btn-submit { background: var(--primary); color: white; padding: 0.8rem 2rem; border-radius: 50px; border: none; cursor: pointer; font-size: 1rem; font-weight: 600; transition: all 0.3s; display: inline-block; margin-top: 1rem; }
+    .current-image { max-width: 200px; margin-top: 1rem; border-radius: 8px; }
+</style>
+<div class="page-header"><h1>Modifier une Destination</h1></div>
+<div class="edit-container">
+    <h2>{{ destination.nom }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group"><label for="nom">Nom</label><input type="text" id="nom" name="nom" value="{{ destination.nom }}" required></div>
+        <div class="form-group"><label for="description">Description</label><textarea id="description" name="description" rows="4" required>{{ destination.description }}</textarea></div>
+        <div class="form-group"><label for="prix">Prix</label><input type="text" id="prix" name="prix" value="{{ destination.prix }}" required></div>
+        <div class="form-group">
+            <label for="image">Changer l'image (optionnel)</label>
+            <input type="file" id="image" name="image">
+            {% if destination.image %}
+                <p style="margin-top: 1rem;">Image actuelle :</p>
+                <img src="{% if 'http' in destination.image %}{{ destination.image }}{% else %}{{ url_for('static', filename=destination.image) }}{% endif %}" alt="{{ destination.nom }}" class="current-image">
+            {% endif %}
+        </div>
+        <button type="submit" class="btn-submit">Sauvegarder</button>
+    </form>
+</div>
+{% endblock %}
