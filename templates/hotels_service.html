@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}{{ super() }} - Hôtels de Prestige{% endblock %}
+{% block content %}
+<style>
+    .hotel-summary {
+        background: #e3f2fd;
+        border-left: 6px solid #1976d2;
+        padding: 2rem;
+        border-radius: 8px;
+        margin: 2rem 0;
+        text-align: center;
+    }
+    .hotel-summary h2 {
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        color: #1976d2;
+    }
+    .hotel-summary p {
+        font-size: 1.1rem;
+        color: #333;
+    }
+    .stats-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+    .stat-box {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        flex: 1 1 200px;
+        text-align: center;
+        min-width: 200px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    .stat-box h3 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    .stat-box p {
+        font-size: 1rem;
+        color: #555;
+    }
+    .note-section {
+        background: #fff3cd;
+        border-left: 4px solid #856404;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 2rem 0;
+        text-align: center;
+        font-size: 1rem;
+    }
+    .btn-submit {
+        display: inline-block;
+        background: var(--primary);
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 2rem;
+        transition: 0.3s;
+    }
+    .btn-submit:hover {
+        background: #1565c0;
+    }
+</style>
+
+<div class="page-header">
+    <h1>Hôtels de Prestige</h1>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="hotel-summary">
+            <h2>Plus de 160,000 hôtels dans le monde entier</h2>
+            <p>
+                Des établissements de luxe aux options économiques, toutes les catégories sont couvertes.  
+                Peu importe votre destination ou votre budget, nous avons l’hôtel idéal pour vous.
+            </p>
+        </div>
+
+        <div class="stats-section">
+            <div class="stat-box">
+                <h3>5,000+</h3>
+                <p>Hôtels 5 étoiles ⭐⭐⭐⭐⭐</p>
+            </div>
+            <div class="stat-box">
+                <h3>20,000+</h3>
+                <p>Hôtels 4 étoiles ⭐⭐⭐⭐</p>
+            </div>
+            <div class="stat-box">
+                <h3>50,000+</h3>
+                <p>Hôtels 3 étoiles ⭐⭐⭐</p>
+            </div>
+            <div class="stat-box">
+                <h3>85,000+</h3>
+                <p>Options économiques</p>
+            </div>
+        </div>
+
+        <div class="note-section">
+            <p>
+                Nous couvrons toutes les destinations populaires et même les lieux les plus secrets.  
+                Pour réserver un hôtel précis, obtenir une sélection sur mesure ou connaître les tarifs exacts, contactez notre équipe.
+            </p>
+            <a href="{{ url_for('contact') }}" class="btn-submit">
+                Demander un Devis Personnalisé
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

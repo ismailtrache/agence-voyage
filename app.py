@@ -241,12 +241,23 @@ def service_detail(service_name):
     if not service:
         flash("Service introuvable.", "danger")
         return redirect(url_for('services'))
-    return render_template('service_detail.html', data=site_data, service=service)
+    
+    # Routage conditionnel selon le service
+    if service_name == "Visa & Documentation":
+        return render_template('visa_service.html', data=site_data, service=service)
+    elif service_name == "Assurance Voyage":
+        return render_template('assurance_service.html', data=site_data, service=service)
+    elif service_name == "Hôtels de Prestige":
+        return render_template('hotels_service.html', data=site_data, service=service)
+    else:
+        return render_template('service_detail.html', data=site_data, service=service)
+
 
 @app.route('/destinations')
 def destinations_page():  # autre nom de fonction
     site_data = load_data()
     return render_template('destinations.html', data=site_data)
+
 
 # ==============================================
 # TEMPLATES HTML
