@@ -29,13 +29,28 @@
     .service-icon { font-size: 3rem; color: var(--primary); margin-bottom: 1rem; }
     .service-card h3 { color: var(--primary); margin-bottom: 1rem; }
     .why-us-icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
+    .services-grid {
+        display: flex;
+        justify-content: center; /* centre le bloc */
+        gap: 20px; /* espace entre les cartes */
+        flex-wrap: nowrap; /* empêche de passer à la ligne */
+    }
+    .services-grid .service-card {
+        flex: 0 0 22%; /* chaque carte prend ±25% de largeur */
+        box-sizing: border-box;
+    }
+    
+    </style>
+    
+
 </style>
+
 <section class="hero">
     <div class="hero-content"><h1>Le Voyage de Vos Rêves Commence Ici</h1><p>Découvrez des destinations incroyables et créez des souvenirs inoubliables.</p>
         <form action="{{ url_for('destinations') }}" method="get"><div class="search-bar"><i class="fas fa-search" style="color: #999; padding-left: 0.5rem;"></i><input type="text" name="query" placeholder="Essayez 'Paris', 'plage'..." class="search-input"><button type="submit" class="search-btn">Rechercher</button></div></form>
     </div>
 </section>
-<section class="section"><div class="container"><h2 class="section-title">Nos Services Exclusifs</h2><p class="section-subtitle">Nous nous occupons de tout pour que votre seule préoccupation soit de profiter.</p><div class="services-grid">{% for service in data.services[:3] %}<div class="service-card"><div class="service-icon"><i class="fas {{ service.icon }}"></i></div><h3>{{ service.nom }}</h3><p>{{ service.description }}</p></div>{% endfor %}</div></div></section>
+<section class="section"><div class="container"><h2 class="section-title">Nos Services Exclusifs</h2><p class="section-subtitle">Nous nous occupons de tout pour que votre seule préoccupation soit de profiter.</p><div class="services-grid">{% for service in data.services if service.nom in ['Réservation de Vols','Hôtels de Prestige','Visa & Documentation','Assurance Voyage'] %}<a href="{% if service.nom == 'Réservation de Vols' %}{{ url_for('destinations') }}{% else %}{{ url_for('service_detail', service_name=service.nom) }}{% endif %}" style="text-decoration: none; color: inherit;"><div class="service-card"><div class="service-icon"><i class="fas {{ service.icon }}"></i></div><h3>{{ service.nom }}</h3><p>{{ service.description }}</p></div></a>{% endfor %}</div>
 <section class="section section-light"><div class="container"><h2 class="section-title">Destinations Populaires</h2><p class="section-subtitle">Laissez-vous inspirer par notre sélection des destinations les plus prisées du moment.</p><div class="destinations-grid">{% for destination in data.destinations[:3] %}<a href="{{ url_for('contact') }}" class="destination-card quote-link" style="text-decoration: none; color: inherit;"><img src="{% if 'http' in destination.image %}{{ destination.image }}{% else %}{{ url_for('static', filename=destination.image) }}{% endif %}" alt="{{ destination.nom }}"><div class="dest-overlay"></div><div class="dest-price">{{ destination.prix }}</div><div class="dest-content"><h3>{{ destination.nom }}</h3><p>{{ destination.description }}</p></div></a>{% endfor %}</div></div></section>
 <section class="section"><div class="container"><h2 class="section-title">Pourquoi Nous Choisir ?</h2><div class="why-us-grid">{% for item in data.why_us %}<div class="why-us-card"><div class="why-us-icon"><i class="fas {{ item.icon }}"></i></div><h3>{{ item.title }}</h3><p>{{ item.description }}</p></div>{% endfor %}</div></div></section>
 {% endblock %}
